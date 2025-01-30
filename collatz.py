@@ -10,21 +10,41 @@ def collatz(n):
     else:
         return 3*n+1
     
-#def distancia_collatz(n,tamanho):
+def caminho_collatz_burro(n):
+    t=[]
+    while n!=1:
+        t.append(n)
+        n=collatz(n)
+    t.append(1.0)
+    return t
+        
+def tamanho_caminho_collatz_burro(n):
+    return len(caminho_collatz_burro(n))
 
+def maior_caminho_collatz_dicio(m):
+    n=np.arange(2,m+1,1)
+    tamanho=dict() #d(n)=numero de caminhos de n ate 1
+    tamanho[1]=1
+    for i in n:
+        if i in tamanho.keys():
+            #print(i)
+            continue
+        else:
+            cont=0
+            aux=i
+            lista_aux=[]
+            while aux not in tamanho.keys():
+                aux=collatz(aux)
+                cont=int(cont+1)
+                lista_aux.append(int(aux))
+               
+            cont=int(cont+tamanho[aux])
+            tamanho[i]=cont
+            #print(i,tamanho[i])
+            for k in np.arange(1,len(lista_aux)):
+                tamanho[lista_aux[k]]=int(cont -k-1)
+                #print(lista_aux[k],tamanho[lista_aux[k]])
 
-
-m=14
-n=np.arange(2,m+1,1)
-tamanho=dict() #d(n)=numero de caminhos de n ate 1
-tamanho[1]=1
-aux=0
-for i in n:
-    if i in tamanho.keys():
-        continue
-    else:
-        while aux!=1:
-            
-    n=collatz(n)
-    aux=aux+1
-print(f'caminho de',m,'ate 1 e',aux)
+    print(max(tamanho, key=tamanho.get))
+    
+maior_caminho_collatz_dicio(500000)
