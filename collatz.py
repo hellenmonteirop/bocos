@@ -36,6 +36,7 @@ def maior_caminho_collatz_dicio(m):
             while aux not in tamanho.keys():
                 aux=collatz(aux)
                 cont=int(cont+1)
+                
                 lista_aux.append(int(aux))
                
             cont=int(cont+tamanho[aux])
