@@ -21,24 +21,29 @@ def erdos_renyi(n, p = 0.5, xlim = (0,10), ylim = (0,10)): #by marcelo carneiro
                     G[keys[idx2]]+=[keys[idx1]]
     return G
 
-n=3
-gra=erdos_renyi(n, p = 0.5, xlim = (0,10), ylim = (0,10))
-print(gra)
-
 def os_vertices_sao(G):
     print(f'Os vertices são:',G.keys())
 
-def as_arestas_sao(G):
-    print(f'As arestas são:')
-    for i in list(G.keys()):
-        for j in G[i]:
-            print(G[j])
-            #j = G[i].pop()
+def as_arestas_sao(G): 
+    print('Existem arestas entre os vertices:')
+    arestas=[]
+    for i in list(G.keys()): #para todos os i-vertices do grafo
+        while G[i]: #enquanto tiver arestas no i-ésimo vértice
+            j = G[i].pop() #tira o ultimo vertice do grafo e deixa ele na variavel j
+            if j in G and i in G[j]:#se o vertice j esta no grafo 
+                #e o vertice i esta na lista de vertices do j então 
+                # remove o i-esimo vertice da lista de arestas do j-esimo vertice
+                #para evitar a dupla aparição
+                G[j].remove(i) 
+            #print(i,j) 
+            arestas.append((i,j))
+    return arestas
 
-        
-
-as_arestas_sao(gra)
-
+n=4
+gra=erdos_renyi(n, p = 0.5, xlim = (0,10), ylim = (0,10))
+print(gra)
+are=as_arestas_sao(gra)
+print(are)
 #def esta_conectado(v1,v2,G):
 
     
